@@ -13,11 +13,8 @@ USE_GOOGLE_SHEETS = True
 GOOGLE_SHEET_NAME = "Kreo Matchmaking"
 
 if USE_GOOGLE_SHEETS:
-    # Load credentials from Streamlit Secrets
     credentials_dict = st.secrets["gcp_service_account"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(dict(credentials_dict))
-    
-    # Authorize Google Sheets API
     client = gspread.authorize(creds)
     sheet = client.open(GOOGLE_SHEET_NAME).sheet1
 
@@ -25,7 +22,7 @@ if USE_GOOGLE_SHEETS:
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
 
-# --- UI DESIGN FIXES ---
+# --- UI DESIGN ---
 st.markdown(
     """
     <style>
@@ -139,11 +136,17 @@ if not st.session_state.submitted:
 
             st.session_state.submitted = True
             st.session_state.message = f"🎉 {name}, you're now part of the Kreo Lobby!"
-            st.session_state.witty_message = random.choice([
-                f"Looks like a **{game_rank}** with a **{game_weapon}** is ready to conquer! 🚀",
-                f"Ah, a fellow **{favorite_snack}** lover! Snacks and gaming – name a better duo! 🍕",
-                f"With your skills and a **{favorite_soda}** in hand, you'll be unstoppable! 🥤"
-            ])
+
+            game_witty_messages = {
+                "Valorant": f"One tap headshots and clutches? Sounds like a **{game_rank}** with a **{game_weapon}** is in the making! 🔫",
+                "CS:GO": f"Flashbangs and flick shots – a true **{game_rank}** legend with a **{game_weapon}** is ready to go! 🎯",
+                "League of Legends": f"With your **{game_weapon}**, the Rift will never be the same again. Get ready to carry! 🏆",
+                "Fortnite": f"90s cranker and build-battle master? Your **{game_rank}** skills are about to shine! 🏗️",
+                "Apex Legends": f"Sliding into victory with a **{game_weapon}** – it's game time, champion! 🏅",
+                "Other": f"Regardless of the game, your **{game_rank}** skills will dominate! 🎮"
+            }
+
+            st.session_state.witty_message = game_witty_messages.get(selected_game, "Get ready to game on and find your perfect duo! 🎮")
             st.rerun()
 
 else:

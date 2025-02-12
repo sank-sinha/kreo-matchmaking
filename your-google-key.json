@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "kreo-matchmaking",
+  "private_key_id": "c39dc3b0c7151eacc1bd361e6a1c2ef2caa9299c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC3s436PRX72OXR\nfuTO8Kk0rURQnogQt71lPc0Vg2RG+gDKggzMpGoIaq/nXPli2rbQ0EJbXSxUBMnT\naKOYyzYl4dwx+OJKRJ+QXAxVZ68qEeCACkAZD428e359UYUf+1b/AeJV+GlNPV7w\n/Mke0qj8BYpCuiTwIClMQORws4hdND+tTKFOjjo4GNsLXG7xgJR6llY5T34Z9jjj\nXrnaPGAeGfpqKt0Fo3+5Nru1lFwZNkeqMlOqBXHQ3FHI0bkvdN7GhlVkp3mY9yIO\n+Im/P/douiSh2Qsip38kxukfcLK5Z5xK2AqzK8OartqGULllCRnqDBl9mCTC7IkC\nyljJhuTTAgMBAAECggEADtYcmGJInT+GSCY0epYrREreIpi7KoZ8cGnOX3duKOFW\nIQTh3cFFowpizI/QwHAjpbe8ND7RLrP4TO+9jsCSzfpw20Rbml3yeSlGAbvPBNnO\nxOiPBrcf3mIm9B4aX1vgSdYwHntinc9gFJyF7cxbw4b7BKqeAxrF2xe+m2+Uitpj\nZmGjeq1cjdRU9mw5GxM3zynGggYZ/KhTcDb99L3IoC3I0pwJqWySPY2AjfaP9Wst\nI+sDN3lgPDjsDhEtj+FfvJmPwQuQcNL4xkN2ZZfYFqGUVXccG8vLkOvDtI183BeX\nvZ8oSaFuCBnTjul0kKrmW+YOhYTuHlkgDErfR/z2kQKBgQDa1T35ab/rHRuOP0M9\nWLsHzI3ZgLzPfuqT9MjRhmfV22Duapwxj0DJsp82Ji5Iy/Bod+h48dUrTrSj/9TF\nnxfcp0C0XytkMzG/hJbntrb/C5+DqeWSh3TpHiXuN+gSoFpcWI5TKHrEFny2gqEL\nuJi6jpgGGUI6GiWRC07MjstNiQKBgQDW5s6T86lxb5YxuWuVXGVCRltm6vDNItdn\nk/nGSnW5tZJaq5ngpHeGSGG72jcE8CmNBLh12nOElMSpJHwfeiqhMswd+B7PlkMP\nAGHkJYr39CqXV3O1mZsvBUIzhoCsZzBfFWgL80WYFa/cG27kwZnFtX2I/VfSBxQk\nJyBygW6EewKBgHqHAY9gRcRIZQBtraFwyDAiuZ36Nj3cK04ytiqTHhqhHhIAgXpC\nYp1MtValZC8AeZiU4watKZV5GS3mdeU9Iig7QcB8tRgCji1U+QW+yZHemS8odtFn\npO9OISDUDs43GMEyGGa5eJvIl4W9eJzOfD2gz8BCblGICFbBRRrGLVE5AoGAbzyL\nY3P1mjz7ToO+11I7K8IFX9FukZBeVUP4Pxadt2Hv/rTicrBPGhfvVvBOGGVD7LWr\n0X0g3FixLygug5CV7li/5Sdgs20BCwvUn+Z693vQbAQdZbu74uvi547QnezP0fff\noofq1x0qqVEd5pT7xqX58+XHBnUZjNkf54Vtsm8CgYBxfiQ+8NyEVlYJoaEO6sGG\nJPp2b0LosNIOpl4z3+K2N7/hrGYeBs/D8GZ8Fv3PkQwCH91D7LllzCLh4WIc1Ror\n7DyWll8fxGx//UZaJUO/RhCfDGsIUXS1ip4pMKkFQuAsWWEhVF/9Au3IR56dIp2n\nGYOjIeK/PG4EJHTnjl/AnQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "kreo-matchmaker@kreo-matchmaking.iam.gserviceaccount.com",
+  "client_id": "100879620460781695955",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kreo-matchmaker%40kreo-matchmaking.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

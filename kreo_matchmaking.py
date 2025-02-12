@@ -41,39 +41,6 @@ st.markdown(
             font-size: 16px;
             padding: 10px 20px;
         }
-
-        div[data-baseweb="select"] {
-            background-color: white !important;
-            border: none !important;
-            padding: 10px !important;
-            border-radius: 6px !important;
-            min-height: 40px !important;
-            display: flex !important;
-            align-items: center !important;
-            box-shadow: none !important;
-        }
-        div[data-baseweb="select"] > div {
-            min-height: 40px !important;
-        }
-
-        select, input, textarea {
-            border: none !important;
-            background: transparent !important;
-            outline: none !important;
-            box-shadow: none !important;
-        }
-
-        select {
-            -webkit-appearance: none !important;
-            -moz-appearance: none !important;
-            appearance: none !important;
-            padding: 5px !important;
-        }
-
-        input:focus, select:focus {
-            outline: none !important;
-            box-shadow: none !important;
-        }
     </style>
     """,
     unsafe_allow_html=True

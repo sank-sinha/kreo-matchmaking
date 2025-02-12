@@ -123,23 +123,20 @@ if not st.session_state.submitted:
         submitted = st.form_submit_button("🔍 Find My Gaming Partner")
 
     if submitted:
-        errors = []
-
-        if not name.strip():
-            errors.append("❌ Name is required.")
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            errors.append("❌ Please enter a valid email address.")
-        if not discord_id.strip():
-            errors.append("❌ Discord ID is required.")
-        if not re.match(r"^[0-9]{10}$", phone):
-            errors.append("❌ Please enter a valid 10-digit phone number.")
-
-        if errors:
-            for error in errors:
-                st.error(error)
-        else:
+        if USE_GOOGLE_SHEETS:
             sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
 
-            st.title(f"Hey **{name}**, you've entered the Kreo Lobby! 🎮")
-            st.markdown("We'll match you with your gaming partner and send you an email.\nFollow [Kreosphere](https://www.instagram.com/kreosphere) and stay tuned.")
-            st.markdown(f'<p class="info-text">{random.choice(personality_messages)}</p>', unsafe_allow_html=True)
+        st.session_state.submitted = True
+        st.session_state.message = f"### Hey **{name}**, you've entered the Kreo Lobby! 🎮"
+        st.session_state.witty_message = random.choice([
+            "A sharp strategist, a fearless risk-taker, and an absolute clutch master.",
+            "With precision, patience, and passion, you make every move count.",
+            "You thrive in chaos, adapt like a pro, and dominate the battlefield.",
+            "Gaming isn’t just a hobby for you—it’s a way of life."
+        ])
+        st.rerun()
+
+else:
+    st.title(st.session_state.message)
+    st.markdown("We'll match you with your gaming partner and send you an email.\nFollow [Kreosphere](https://www.instagram.com/kreosphere) and stay tuned.")
+    st.markdown(f'<p class="info-text">{st.session_state.witty_message}</p>', unsafe_allow_html=True)

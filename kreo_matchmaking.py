@@ -48,6 +48,12 @@ st.markdown(
             font-size: 14px;
             font-weight: 500;
         }
+        .instruction-text {
+            font-size: 12px;
+            color: grey;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
     </style>
     """,
     unsafe_allow_html=True
@@ -102,8 +108,13 @@ if not st.session_state.submitted:
 
         st.subheader("📝 Personal Information")
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
-        email = st.text_input("📧 Email Address", placeholder="example@email.com (Ensure it's correct for Round 2)")
-        discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234 (Make sure it's correct for final showdown)")
+        
+        st.markdown('<p class="instruction-text">📌 Ensure this is correct, as it will be used to contact you for Round 2</p>', unsafe_allow_html=True)
+        email = st.text_input("📧 Email Address", placeholder="example@email.com")
+        
+        st.markdown('<p class="instruction-text">📌 Enter your correct Discord ID, as it will be required for the final showdown</p>', unsafe_allow_html=True)
+        discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234")
+        
         phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")
         age = st.number_input("🎂 Age", min_value=13, max_value=99, step=1)
         sex = st.selectbox("⚧ Sex", ["Male", "Female", "Other"])
@@ -130,14 +141,14 @@ if not st.session_state.submitted:
                 sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
 
             st.session_state.submitted = True
-            st.session_state.message = f"### Hey **{name}**, You've entered the Kreo Lobby! 🎮\nWe’ll match you with your ideal gaming partner and contact you on your email. \n\nStay updated by following [Kreosphere](https://www.instagram.com/kreosphere)!"
+            st.session_state.message = f"### Hey **{name}**, You've entered the Kreo Lobby! 🎮\nStay tuned for your match!"
 
             personality_messages = [
-                "A strategist with a knack for calculated moves. A true leader in the making. ♟️",
-                "The silent assassin. Precision and patience are your strengths. 🕶️",
-                "You thrive in chaos, adapting to every situation like a champ. 🏆",
-                "Teamwork makes the dream work, and you're the glue that holds squads together. 🎖️",
-                "An aggressive playstyle with no fear—either you win or you learn. 🔥"
+                "Strategic mastermind, always a step ahead. ♟️",
+                "Deadly aim and ice-cold focus. 🎯",
+                "Fast, aggressive, and unpredictable. ⚡",
+                "Your squad’s backbone, the one they rely on. 🏆",
+                "A pure wildcard—either MVP or chaos incarnate. 🔥"
             ]
 
             st.session_state.witty_message = random.choice(personality_messages)

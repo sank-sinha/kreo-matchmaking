@@ -127,7 +127,7 @@ if not st.session_state.submitted:
             sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
 
         st.session_state.submitted = True
-        st.session_state.message = f"### Hey **{name}**, you've entered the Kreo Lobby! 🎮"
+        st.session_state.message = f"Hey {name}, you've entered the Kreo Lobby! 🎮"
         st.session_state.witty_message = random.choice([
             "A sharp strategist, a fearless risk-taker, and an absolute clutch master.",
             "With precision, patience, and passion, you make every move count.",

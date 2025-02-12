@@ -1,7 +1,6 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import time
 import re
 
 # --- PAGE CONFIGURATION ---
@@ -26,15 +25,10 @@ st.markdown(
     """
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&display=swap');
-
         html, body, [class*="st-"] {
             background-color: #ffffff !important;
             color: black !important;
             font-family: 'Josefin Sans', sans-serif;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            color: black !important;
-            font-weight: bold;
         }
         .stButton>button {
             background-color: #a578fd !important;
@@ -85,11 +79,15 @@ if not st.session_state.submitted:
     }
 
     game_weapons = {
-        "Valorant": ["Vandal", "Phantom", "Operator", "Judge"],
-        "CS:GO": ["AWP", "AK-47", "M4A1-S", "Desert Eagle"],
-        "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support"],
-        "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher"],
-        "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99"],
+        "Valorant": ["Vandal", "Phantom", "Operator", "Judge", "Guardian", "Spectre", "Odin"],
+        "CS:GO": ["AWP", "AK-47", "M4A1-S", "Desert Eagle", "P90", "Negev", "FAMAS"],
+        "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support", "Bruiser", "Assassin"],
+        "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher", "Tactical SMG", "Heavy Shotgun"],
+        "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99", "Kraber", "CAR SMG"],
+        "Dota 2": ["Blink Dagger", "Aghanim's Scepter", "Black King Bar", "Divine Rapier", "Butterfly", "Desolator"],
+        "BGMI": ["M416", "AKM", "AWM", "Uzi", "Groza", "Kar98k", "Vector"],
+        "Free Fire": ["MP40", "M1014", "AWM", "Groza", "M82B", "SCAR"],
+        "Call of Duty": ["M4", "DLQ33", "AK-47", "HVK-30", "Man-O-War", "Chicom"],
         "Other": ["Default Weapon"]
     }
 
@@ -104,8 +102,8 @@ if not st.session_state.submitted:
 
         st.subheader("📝 Personal Information")
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
-        email = st.text_input("📧 Email Address", placeholder="example@email.com")
-        discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234")
+        email = st.text_input("📧 Email Address", placeholder="example@email.com (Ensure it's correct for Round 2)")
+        discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234 (Make sure it's correct for final showdown)")
         phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")
         age = st.number_input("🎂 Age", min_value=13, max_value=99, step=1)
         sex = st.selectbox("⚧ Sex", ["Male", "Female", "Other"])
@@ -134,17 +132,15 @@ if not st.session_state.submitted:
             st.session_state.submitted = True
             st.session_state.message = f"### Hey **{name}**, You've entered the Kreo Lobby! 🎮\nWe’ll match you with your ideal gaming partner and contact you on your email. \n\nStay updated by following [Kreosphere](https://www.instagram.com/kreosphere)!"
 
-            game_witty_messages = {
-                "Valorant": "One tap headshots? Your aim better be crispy. 🔫",
-                "CS:GO": "Flashbangs and flick shots – just don't rush B every round. 🎯",
-                "Dota 2": "It's not just a game, it's **Dota 2**. GG or FF? 🏆",
-                "Apex Legends": "Sliding into victory with an R-99 – fast and deadly! 🏅",
-                "BGMI": "Drop hot, loot fast, and be the last one standing. 🎖️",
-                "Call of Duty": "No camping allowed. Rush, frag, repeat. 🔥",
-                "Other": "Whatever game it is, you got this! 🎮"
-            }
+            personality_messages = [
+                "A strategist with a knack for calculated moves. A true leader in the making. ♟️",
+                "The silent assassin. Precision and patience are your strengths. 🕶️",
+                "You thrive in chaos, adapting to every situation like a champ. 🏆",
+                "Teamwork makes the dream work, and you're the glue that holds squads together. 🎖️",
+                "An aggressive playstyle with no fear—either you win or you learn. 🔥"
+            ]
 
-            st.session_state.witty_message = game_witty_messages.get(selected_game, "Get ready to dominate! 🎮")
+            st.session_state.witty_message = random.choice(personality_messages)
             st.rerun()
 
 else:

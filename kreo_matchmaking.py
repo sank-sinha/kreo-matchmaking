@@ -53,6 +53,11 @@ st.markdown(
             font-size: 14px;
             color: #555;
         }
+        .info-text {
+            font-size: 14px;
+            font-style: italic;
+            color: #888;
+        }
     </style>
     """,
     unsafe_allow_html=True
@@ -100,18 +105,16 @@ if not st.session_state.submitted:
     with st.form(key="matchmaking_form", clear_on_submit=False):
 
         st.subheader("🎮 Gaming Preferences")
-
         game_rank = st.selectbox("🎖 Your Rank:", game_ranks.get(selected_game, ["Beginner"]))
-
         game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons.get(selected_game, ["Default Weapon"]))
-
         preferred_time = st.selectbox("⏰ When Do You Usually Play?", ["Morning", "Afternoon", "Evening", "Night", "Flexible"])
         toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["None", "Low", "Moderate", "High"])
 
         st.subheader("📝 Personal Information")
-
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
+        st.markdown('<p class="info-text">📧 Make sure you enter the correct email address because this will be used to contact you for Round 2.</p>', unsafe_allow_html=True)
         email = st.text_input("📧 Email Address", placeholder="example@email.com")
+        st.markdown('<p class="info-text">🎤 Make sure you enter the correct Discord ID because this will be used for the final showdown later.</p>', unsafe_allow_html=True)
         discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234")
         phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")
         age = st.number_input("🎂 Age", min_value=13, max_value=99, step=1)
@@ -136,12 +139,11 @@ if not st.session_state.submitted:
                 "CS:GO": "Flashbangs and flick shots – just don't rush B every round. 🎯",
                 "Dota 2": "It's not just a game, it's **Dota 2**. GG or FF? 🏆",
                 "Apex Legends": "Sliding into victory with an R-99 – fast and deadly! 🏅",
-                "Fortnite": "Building a future? Or just out-building the enemy? 🏗️",
                 "BGMI": "Drop hot, loot fast, and be the last one standing. 🎖️",
                 "Call of Duty": "No camping allowed. Rush, frag, repeat. 🔥",
                 "Other": "Whatever game it is, you got this! 🎮"
             }
-            
+
             st.session_state.witty_message = game_witty_messages.get(selected_game, "Get ready to dominate! 🎮")
             st.rerun()
 

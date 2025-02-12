@@ -3,7 +3,6 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import time
 import re
-import random
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="🎮 Kreo Lobby: Find Your Match", layout="centered")
@@ -49,6 +48,10 @@ st.markdown(
         }
         .stButton>button:hover {
             background-color: #8c60e3 !important;
+        }
+        .small-text {
+            font-size: 14px;
+            color: #555;
         }
     </style>
     """,
@@ -103,33 +106,16 @@ if not st.session_state.submitted:
         game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons.get(selected_game, ["Default Weapon"]))
 
         preferred_time = st.selectbox("⏰ When Do You Usually Play?", ["Morning", "Afternoon", "Evening", "Night", "Flexible"])
-        toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["None - I prefer a chill experience", "Low - Occasional banter is okay", "Moderate - Competitive trash talk is fine", "High - Full-on rage moments acceptable"])
+        toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["None", "Low", "Moderate", "High"])
 
         st.subheader("📝 Personal Information")
 
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
-
-        st.markdown("📧 **Make sure you enter correct email address because this will be used to contact you for Round 2**")
-        email = st.text_input("Email Address", placeholder="example@email.com")
-
-        st.markdown("🎤 **Make sure you enter correct Discord ID because this will be used for the final showdown later**")
-        discord_id = st.text_input("Discord ID", placeholder="YourDiscord#1234")
-
+        email = st.text_input("📧 Email Address", placeholder="example@email.com")
+        discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234")
         phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")
-
         age = st.number_input("🎂 Age", min_value=13, max_value=99, step=1)
-
         sex = st.selectbox("⚧ Sex", ["Male", "Female", "Other"])
-
-        st.markdown("**🍕 Favorite Gaming Snack**")  
-        favorite_snack = st.selectbox("", ["Chips", "Samosa", "Bhujia", "French Fries", "Chocolate", "Pizza", "Momos"])
-
-        st.markdown("**🥤 Favorite Soda**")  
-        favorite_soda = st.selectbox("", ["Thums Up", "Maaza", "Limca", "Mirinda", "Coca Cola", "Pepsi", "Sprite", "Mountain Dew"])
-
-        interests = st.multiselect("💡 Interests:", ["Anime", "Pets", "Fitness", "Music", "Foodie", "Meme Lover", "Tech Enthusiast"])
-
-        hobbies = st.multiselect("🎨 Hobbies:", ["Streaming", "Graphic Design", "Speedrunning", "Esports Watching", "Coding", "Drawing", "Cosplay", "Competitive Gaming"])
 
         submitted = st.form_submit_button("🔍 Find My Gaming Partner")
 
@@ -140,10 +126,25 @@ if not st.session_state.submitted:
             st.error("❌ Please enter a valid 10-digit phone number.")
         else:
             if USE_GOOGLE_SHEETS:
-                sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level, ", ".join(interests), ", ".join(hobbies), favorite_snack, favorite_soda])
+                sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
 
             st.session_state.submitted = True
+            st.session_state.message = f"Hey **{name}**, You've entered the Kreo Lobby and will be matched with your gaming partner. We'll contact you on your email for the same. Follow [Kreosphere](https://www.instagram.com/kreosphere) and stay tuned!"
+            
+            game_witty_messages = {
+                "Valorant": "One tap headshots? Your aim better be crispy. 🔫",
+                "CS:GO": "Flashbangs and flick shots – just don't rush B every round. 🎯",
+                "Dota 2": "It's not just a game, it's **Dota 2**. GG or FF? 🏆",
+                "Apex Legends": "Sliding into victory with an R-99 – fast and deadly! 🏅",
+                "Fortnite": "Building a future? Or just out-building the enemy? 🏗️",
+                "BGMI": "Drop hot, loot fast, and be the last one standing. 🎖️",
+                "Call of Duty": "No camping allowed. Rush, frag, repeat. 🔥",
+                "Other": "Whatever game it is, you got this! 🎮"
+            }
+            
+            st.session_state.witty_message = game_witty_messages.get(selected_game, "Get ready to dominate! 🎮")
             st.rerun()
 
 else:
-    st.success("✅ Thanks for submitting! We'll contact you on your email. Follow us: [Kreosphere](https://www.instagram.com/kreosphere)")
+    st.title(st.session_state.message)
+    st.markdown(f"<p class='small-text'>{st.session_state.witty_message}</p>", unsafe_allow_html=True)

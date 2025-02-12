@@ -1,7 +1,7 @@
 import streamlit as st
-import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import json
 import time
 import re
 
@@ -11,11 +11,13 @@ st.set_page_config(page_title="🎮 Kreo Lobby: Find Your Match", layout="center
 # --- GOOGLE SHEETS CONFIGURATION ---
 USE_GOOGLE_SHEETS = True  
 GOOGLE_SHEET_NAME = "Kreo Matchmaking"
-SERVICE_ACCOUNT_FILE = "your-google-key.json"
 
 if USE_GOOGLE_SHEETS:
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, scope)
+    # Load credentials from Streamlit Secrets
+    credentials_dict = json.loads(st.secrets["gcp_service_account"])
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict)
+    
+    # Authorize Google Sheets API
     client = gspread.authorize(creds)
     sheet = client.open(GOOGLE_SHEET_NAME).sheet1
 

@@ -35,7 +35,14 @@ st.markdown(
             font-weight: bold;
         }
 
-        .stButton>button {
+        /* Style for the Submit Button */
+        .custom-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .custom-button button {
             background-color: #A578FD !important;
             color: white !important;
             font-size: 18px !important;
@@ -48,7 +55,7 @@ st.markdown(
             transition: all 0.3s ease-in-out !important;
         }
 
-        .stButton>button:hover {
+        .custom-button button:hover {
             background-color: #8B4CF7 !important;
             box-shadow: 0px 0px 20px rgba(165, 120, 253, 0.8) !important;
             transform: scale(1.05) !important;
@@ -140,7 +147,10 @@ with st.form(key="matchmaking_form", clear_on_submit=False):
     
     hobbies = st.multiselect("🎨 Select Your Hobbies", ["Streaming", "Graphic Design", "Speedrunning", "Esports Watching", "Coding", "Drawing", "Cosplay", "Competitive Gaming"])
 
-    submitted = st.form_submit_button("🔍 Find My Gaming Partner")
+    submitted = st.form_submit_button("Submit")
+
+# --- CUSTOM SUBMIT BUTTON OUTSIDE FORM ---
+st.markdown('<div class="custom-button"><button type="submit">🔍 Find My Gaming Partner</button></div>', unsafe_allow_html=True)
 
 if submitted:
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):

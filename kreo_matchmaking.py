@@ -1,7 +1,6 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import json
 import time
 import re
 
@@ -13,9 +12,9 @@ USE_GOOGLE_SHEETS = True
 GOOGLE_SHEET_NAME = "Kreo Matchmaking"
 
 if USE_GOOGLE_SHEETS:
-    # Load credentials from Streamlit Secrets
-    credentials_dict = json.loads(st.secrets["gcp_service_account"])
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict)
+    # Load credentials from Streamlit Secrets (Fixed: Removed json.loads)
+    credentials_dict = st.secrets["gcp_service_account"]
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(dict(credentials_dict))
     
     # Authorize Google Sheets API
     client = gspread.authorize(creds)

@@ -49,14 +49,10 @@ st.markdown(
         .stButton>button:hover {
             background-color: #8c60e3 !important;
         }
-        .small-text {
+        .error-text {
+            color: red;
             font-size: 14px;
-            color: #555;
-        }
-        .info-text {
-            font-size: 14px;
-            font-style: italic;
-            color: #888;
+            font-weight: bold;
         }
     </style>
     """,
@@ -112,9 +108,7 @@ if not st.session_state.submitted:
 
         st.subheader("📝 Personal Information")
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
-        st.markdown('<p class="info-text">📧 Make sure you enter the correct email address because this will be used to contact you for Round 2.</p>', unsafe_allow_html=True)
         email = st.text_input("📧 Email Address", placeholder="example@email.com")
-        st.markdown('<p class="info-text">🎤 Make sure you enter the correct Discord ID because this will be used for the final showdown later.</p>', unsafe_allow_html=True)
         discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234")
         phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")
         age = st.number_input("🎂 Age", min_value=13, max_value=99, step=1)
@@ -123,10 +117,20 @@ if not st.session_state.submitted:
         submitted = st.form_submit_button("🔍 Find My Gaming Partner")
 
     if submitted:
+        errors = []
+
+        if not name.strip():
+            errors.append("❌ Name is required.")
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            st.error("❌ Please enter a valid email address.")
-        elif not re.match(r"^[0-9]{10}$", phone):
-            st.error("❌ Please enter a valid 10-digit phone number.")
+            errors.append("❌ Please enter a valid email address.")
+        if not discord_id.strip():
+            errors.append("❌ Discord ID is required.")
+        if not re.match(r"^[0-9]{10}$", phone):
+            errors.append("❌ Please enter a valid 10-digit phone number.")
+
+        if errors:
+            for error in errors:
+                st.markdown(f'<p class="error-text">{error}</p>', unsafe_allow_html=True)
         else:
             if USE_GOOGLE_SHEETS:
                 sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
@@ -149,4 +153,4 @@ if not st.session_state.submitted:
 
 else:
     st.title(st.session_state.message)
-    st.markdown(f"<p class='small-text'>{st.session_state.witty_message}</p>", unsafe_allow_html=True)
+    st.markdown(f'<p class="error-text">{st.session_state.witty_message}</p>', unsafe_allow_html=True)

@@ -1,8 +1,8 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import time
 import re
-import random
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="🎮 Kreo Lobby: Find Your Match", layout="centered")
@@ -26,10 +26,15 @@ st.markdown(
     """
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&display=swap');
+
         html, body, [class*="st-"] {
             background-color: #ffffff !important;
             color: black !important;
             font-family: 'Josefin Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: black !important;
+            font-weight: bold;
         }
         .stButton>button {
             background-color: #a578fd !important;
@@ -48,12 +53,6 @@ st.markdown(
             color: grey;
             font-size: 14px;
             font-weight: 500;
-        }
-        .instruction-text {
-            font-size: 12px;
-            color: grey;
-            font-weight: 500;
-            margin-bottom: 5px;
         }
     </style>
     """,
@@ -86,15 +85,15 @@ if not st.session_state.submitted:
     }
 
     game_weapons = {
-        "Valorant": ["Vandal", "Phantom", "Operator", "Judge", "Guardian", "Spectre", "Odin"],
-        "CS:GO": ["AWP", "AK-47", "M4A1-S", "Desert Eagle", "P90", "Negev", "FAMAS"],
-        "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support", "Bruiser", "Assassin"],
-        "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher", "Tactical SMG", "Heavy Shotgun"],
-        "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99", "Kraber", "CAR SMG"],
-        "Dota 2": ["Blink Dagger", "Aghanim's Scepter", "Black King Bar", "Divine Rapier", "Butterfly", "Desolator"],
-        "BGMI": ["M416", "AKM", "AWM", "Uzi", "Groza", "Kar98k", "Vector"],
-        "Free Fire": ["MP40", "M1014", "AWM", "Groza", "M82B", "SCAR"],
-        "Call of Duty": ["M4", "DLQ33", "AK-47", "HVK-30", "Man-O-War", "Chicom"],
+        "Valorant": ["Vandal", "Phantom", "Operator", "Judge"],
+        "CS:GO": ["AWP", "AK-47", "M4A1-S", "Desert Eagle"],
+        "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support"],
+        "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher"],
+        "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99"],
+        "Dota 2": ["Blink Dagger", "Divine Rapier", "Aghanim's Scepter", "Black King Bar"],
+        "BGMI": ["M416", "Kar98k", "AWM", "DP-28"],
+        "Free Fire": ["MP40", "SCAR", "M1887", "AWM"],
+        "Call of Duty": ["M4", "AK-47", "DL Q33", "MSMC"],
         "Other": ["Default Weapon"]
     }
 
@@ -108,14 +107,14 @@ if not st.session_state.submitted:
         toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["No trash talks", "Some friendly Banter", "Full Ham M#$%^$"])
 
         st.subheader("📝 Personal Information")
+
+        st.markdown("📧 **Ensure correct email, it will be used for Round 2**")
+        email = st.text_input("Email Address", placeholder="example@email.com")
+
+        st.markdown("🎤 **Ensure correct Discord ID, required for final showdown**")
+        discord_id = st.text_input("Discord ID", placeholder="YourDiscord#1234")
+
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
-
-        st.markdown('<p class="instruction-text">📌 Ensure this is correct, as it will be used to contact you for Round 2</p>', unsafe_allow_html=True)
-        email = st.text_input("📧 Email Address", placeholder="example@email.com")
-
-        st.markdown('<p class="instruction-text">📌 Enter your correct Discord ID, as it will be required for the final showdown</p>', unsafe_allow_html=True)
-        discord_id = st.text_input("🎤 Discord ID", placeholder="YourDiscord#1234")
-
         phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")
         age = st.number_input("🎂 Age", min_value=13, max_value=99, step=1)
         sex = st.selectbox("⚧ Sex", ["Male", "Female", "Other"])
@@ -123,20 +122,28 @@ if not st.session_state.submitted:
         submitted = st.form_submit_button("🔍 Find My Gaming Partner")
 
     if submitted:
-        if USE_GOOGLE_SHEETS:
-            sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
+        errors = []
+        if not name.strip():
+            errors.append("❌ Name is required.")
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            errors.append("❌ Please enter a valid email address.")
+        if not discord_id.strip():
+            errors.append("❌ Discord ID is required.")
+        if not re.match(r"^[0-9]{10}$", phone):
+            errors.append("❌ Please enter a valid 10-digit phone number.")
 
-        st.session_state.submitted = True
-        st.session_state.message = f"Hey {name}, you've entered the Kreo Lobby! 🎮"
-        st.session_state.witty_message = random.choice([
-            "A sharp strategist, a fearless risk-taker, and an absolute clutch master.",
-            "With precision, patience, and passion, you make every move count.",
-            "You thrive in chaos, adapt like a pro, and dominate the battlefield.",
-            "Gaming isn’t just a hobby for you—it’s a way of life."
-        ])
-        st.rerun()
+        if errors:
+            for error in errors:
+                st.error(error)
+        else:
+            if USE_GOOGLE_SHEETS:
+                sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
+
+            st.session_state.submitted = True
+            st.session_state.message = f"### Hey **{name}**, you've entered the Kreo Lobby! 🎮\nWe'll match you with your gaming partner and send you an email.\nFollow [Kreosphere](https://www.instagram.com/kreosphere) and stay tuned."
+            st.session_state.witty_message = "You bring strategy and firepower to the game—your squad is lucky to have you!"
+            st.rerun()
 
 else:
     st.title(st.session_state.message)
-    st.markdown("We'll match you with your gaming partner and send you an email.\nFollow [Kreosphere](https://www.instagram.com/kreosphere) and stay tuned.")
     st.markdown(f'<p class="info-text">{st.session_state.witty_message}</p>', unsafe_allow_html=True)

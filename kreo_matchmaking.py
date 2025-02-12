@@ -138,23 +138,8 @@ if not st.session_state.submitted:
             for error in errors:
                 st.error(error)
         else:
-            if USE_GOOGLE_SHEETS:
-                sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
+            sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
 
-            st.session_state.submitted = True
-            st.session_state.message = f"### Hey **{name}**, You've entered the Kreo Lobby! 🎮"
-
-            personality_messages = [
-                "You strategize like a chess grandmaster, always three steps ahead. ♟️",
-                "Deadly aim and ice-cold focus. They’ll fear your presence. 🎯",
-                "Fast, aggressive, and unpredictable. You're chaos in motion. ⚡",
-                "The glue that holds the team together. The backbone, the MVP. 🏆",
-                "A wildcard—either MVP or chaos incarnate, and that’s the fun. 🔥"
-            ]
-
-            st.session_state.witty_message = random.choice(personality_messages)
-            st.rerun()
-
-else:
-    st.title(st.session_state.message)
-    st.markdown(f'<p class="info-text">{st.session_state.witty_message}</p>', unsafe_allow_html=True)
+            st.title(f"Hey **{name}**, you've entered the Kreo Lobby! 🎮")
+            st.markdown("We'll match you with your gaming partner and send you an email.\nFollow [Kreosphere](https://www.instagram.com/kreosphere) and stay tuned.")
+            st.markdown(f'<p class="info-text">{random.choice(personality_messages)}</p>', unsafe_allow_html=True)

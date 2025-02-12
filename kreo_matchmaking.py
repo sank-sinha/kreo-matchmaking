@@ -14,7 +14,6 @@ GOOGLE_SHEET_NAME = "Kreo Matchmaking"
 if USE_GOOGLE_SHEETS:
     credentials_dict = st.secrets["gcp_service_account"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(dict(credentials_dict))
-    
     client = gspread.authorize(creds)
     sheet = client.open(GOOGLE_SHEET_NAME).sheet1
 
@@ -35,7 +34,7 @@ st.markdown(
             font-weight: bold;
         }
 
-        /* Style for the custom Submit Button */
+        /* Custom Purple Button */
         .custom-button {
             display: flex;
             justify-content: center;
@@ -65,11 +64,6 @@ st.markdown(
             border-radius: 8px !important;
             padding: 10px !important;
             border: 1px solid #A578FD !important;
-        }
-
-        .stMarkdown {
-            font-weight: bold !important;
-            font-size: 16px !important;
         }
     </style>
     """,
@@ -117,7 +111,7 @@ game_weapons = {
     "Other": ["Default Weapon", "Power Moves", "Basic Gear"]
 }
 
-# --- FORM ---
+# --- FORM STARTS HERE ---
 with st.form(key="matchmaking_form", clear_on_submit=False):
 
     st.subheader("🎮 Gaming Preferences")
@@ -147,10 +141,11 @@ with st.form(key="matchmaking_form", clear_on_submit=False):
     
     hobbies = st.multiselect("🎨 Select Your Hobbies", ["Streaming", "Graphic Design", "Speedrunning", "Esports Watching", "Coding", "Drawing", "Cosplay", "Competitive Gaming"])
 
-    submitted = st.form_submit_button("Find My Gaming Partner")
+    # REMOVE DEFAULT SUBMIT BUTTON
+    submitted = st.form_submit_button("")
 
-# --- CUSTOM SUBMIT BUTTON OUTSIDE FORM ---
-if st.markdown('<div class="custom-button"><button type="submit">🔍 Find My Gaming Partner</button></div>', unsafe_allow_html=True):
+# --- CUSTOM SUBMIT BUTTON OUTSIDE FORM (FINAL FIX) ---
+if st.markdown('<div class="custom-button"><button type="submit" onclick="document.getElementById(\'matchmaking_form\').submit();">🔍 Find My Gaming Partner</button></div>', unsafe_allow_html=True):
     submitted = True  # Triggers form submission
 
 if submitted:

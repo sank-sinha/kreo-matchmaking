@@ -24,6 +24,9 @@ except Exception as e:
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
 
+if "selected_game" not in st.session_state:
+    st.session_state.selected_game = "Valorant"
+
 # --- STYLING ---
 st.markdown(
     """
@@ -57,6 +60,33 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# --- GAME DATA ---
+game_ranks = {
+    "Valorant": ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Immortal", "Radiant"],
+    "CS:GO": ["Silver", "Gold Nova", "Master Guardian", "Legendary Eagle", "Global Elite"],
+    "League of Legends": ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Grandmaster", "Challenger"],
+    "Fortnite": ["Casual", "Arena Beginner", "Arena Intermediate", "Arena Expert"],
+    "Apex Legends": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Predator"],
+    "DOTA": ["Herald", "Guardian", "Crusader", "Archon", "Legend", "Ancient", "Divine", "Immortal"],
+    "BGMI": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ace", "Conqueror"],
+    "Free Fire": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Heroic", "Grandmaster"],
+    "Call of Duty": ["Rookie", "Veteran", "Elite", "Pro", "Master", "Grandmaster", "Legendary"],
+    "Other": ["Beginner", "Intermediate", "Advanced", "Pro"]
+}
+
+game_weapons = {
+    "Valorant": ["Vandal", "Phantom", "Operator", "Judge"],
+    "CS:GO": ["AWP", "AK-47", "M4A1-S", "Desert Eagle"],
+    "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support"],
+    "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher"],
+    "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99"],
+    "DOTA": ["Blink Dagger", "Aghanim's Scepter", "Black King Bar", "Divine Rapier"],
+    "BGMI": ["M416", "AKM", "AWM", "Uzi"],
+    "Free Fire": ["MP40", "M1014", "AWM", "Groza"],
+    "Call of Duty": ["M4", "DLQ33", "AK-47", "HVK-30"],
+    "Other": ["Default Weapon"]
+}
+
 # --- FORM ---
 if not st.session_state.submitted:
     st.title("🎮 Kreo Lobby: Find Your Match")
@@ -66,41 +96,13 @@ if not st.session_state.submitted:
         st.subheader("🎮 Select Your Game")
         selected_game = st.selectbox(
             "🕹 Which Game Do You Primarily Play?",
-            ["Valorant", "CS:GO", "League of Legends", "Fortnite", "Apex Legends", "DOTA", "BGMI", "Free Fire", "Call of Duty", "Other"],
+            list(game_ranks.keys()),
             key="selected_game"
         )
 
-        # --- Rank and Weapon Dictionaries ---
-        game_ranks = {
-            "Valorant": ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Immortal", "Radiant"],
-            "CS:GO": ["Silver", "Gold Nova", "Master Guardian", "Legendary Eagle", "Global Elite"],
-            "League of Legends": ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Grandmaster", "Challenger"],
-            "Fortnite": ["Casual", "Arena Beginner", "Arena Intermediate", "Arena Expert"],
-            "Apex Legends": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Predator"],
-            "DOTA": ["Herald", "Guardian", "Crusader", "Archon", "Legend", "Ancient", "Divine", "Immortal"],
-            "BGMI": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ace", "Conqueror"],
-            "Free Fire": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Heroic", "Grandmaster"],
-            "Call of Duty": ["Rookie", "Veteran", "Elite", "Pro", "Master", "Grandmaster", "Legendary"],
-            "Other": ["Beginner", "Intermediate", "Advanced", "Pro"]
-        }
-
-        game_weapons = {
-            "Valorant": ["Vandal", "Phantom", "Operator", "Judge"],
-            "CS:GO": ["AWP", "AK-47", "M4A1-S", "Desert Eagle"],
-            "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support"],
-            "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher"],
-            "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99"],
-            "DOTA": ["Blink Dagger", "Aghanim's Scepter", "Black King Bar", "Divine Rapier"],
-            "BGMI": ["M416", "AKM", "AWM", "Uzi"],
-            "Free Fire": ["MP40", "M1014", "AWM", "Groza"],
-            "Call of Duty": ["M4", "DLQ33", "AK-47", "HVK-30"],
-            "Other": ["Default Weapon"]
-        }
-
-        # --- GAMING PREFERENCES ---
-        st.subheader("🎮 Gaming Preferences")
-        game_rank = st.selectbox("🎖 Your Rank:", game_ranks.get(selected_game, ["Beginner"]))
-        game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons.get(selected_game, ["Default Weapon"]))
+        # --- DYNAMIC RANK & WEAPON SELECTION ---
+        game_rank = st.selectbox("🎖 Your Rank:", game_ranks[selected_game])
+        game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons[selected_game])
         preferred_time = st.selectbox("⏰ When Do You Usually Play?", ["Morning", "Afternoon", "Evening", "Night", "Flexible"])
         toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["No trash talks", "Some friendly Banter", "Full Ham M#$%^$"])
 

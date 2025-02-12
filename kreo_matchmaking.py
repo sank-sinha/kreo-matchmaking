@@ -35,7 +35,7 @@ st.markdown(
             font-weight: bold;
         }
 
-        /* Style for the Submit Button */
+        /* Style for the custom Submit Button */
         .custom-button {
             display: flex;
             justify-content: center;
@@ -147,10 +147,11 @@ with st.form(key="matchmaking_form", clear_on_submit=False):
     
     hobbies = st.multiselect("🎨 Select Your Hobbies", ["Streaming", "Graphic Design", "Speedrunning", "Esports Watching", "Coding", "Drawing", "Cosplay", "Competitive Gaming"])
 
-    submitted = st.form_submit_button("Submit")
+    submitted = st.form_submit_button("Find My Gaming Partner")
 
 # --- CUSTOM SUBMIT BUTTON OUTSIDE FORM ---
-st.markdown('<div class="custom-button"><button type="submit">🔍 Find My Gaming Partner</button></div>', unsafe_allow_html=True)
+if st.markdown('<div class="custom-button"><button type="submit">🔍 Find My Gaming Partner</button></div>', unsafe_allow_html=True):
+    submitted = True  # Triggers form submission
 
 if submitted:
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
@@ -162,5 +163,4 @@ if submitted:
             sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level, ", ".join(interests), ", ".join(hobbies), favorite_snack, favorite_soda])
 
         st.success("✅ Thanks for submitting! We'll contact you on your email.")
-        st.write(f"🎉 **Nice choice! A fellow {selected_game} {game_rank} player might just be your next best teammate!**")
         st.balloons()

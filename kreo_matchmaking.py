@@ -49,10 +49,10 @@ st.markdown(
         .stButton>button:hover {
             background-color: #8c60e3 !important;
         }
-        .error-text {
-            color: red;
+        .info-text {
+            color: grey;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 500;
         }
     </style>
     """,
@@ -90,10 +90,6 @@ if not st.session_state.submitted:
         "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support"],
         "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher"],
         "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99"],
-        "Dota 2": ["Blink Dagger", "Divine Rapier", "Black King Bar", "Aghanim's Scepter"],
-        "BGMI": ["M416", "AKM", "AWM", "DP-28", "UZI"],
-        "Free Fire": ["MP40", "M1887", "AWM", "M1014", "SCAR"],
-        "Call of Duty": ["M4", "AK-47", "DL Q33", "MSMC", "PDW-57"],
         "Other": ["Default Weapon"]
     }
 
@@ -104,7 +100,7 @@ if not st.session_state.submitted:
         game_rank = st.selectbox("🎖 Your Rank:", game_ranks.get(selected_game, ["Beginner"]))
         game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons.get(selected_game, ["Default Weapon"]))
         preferred_time = st.selectbox("⏰ When Do You Usually Play?", ["Morning", "Afternoon", "Evening", "Night", "Flexible"])
-        toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["None", "Low", "Moderate", "High"])
+        toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["No trash talks", "Some friendly Banter", "Full Ham M#$%^$"])
 
         st.subheader("📝 Personal Information")
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
@@ -130,14 +126,14 @@ if not st.session_state.submitted:
 
         if errors:
             for error in errors:
-                st.markdown(f'<p class="error-text">{error}</p>', unsafe_allow_html=True)
+                st.error(error)
         else:
             if USE_GOOGLE_SHEETS:
                 sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level])
 
             st.session_state.submitted = True
-            st.session_state.message = f"Hey **{name}**, You've entered the Kreo Lobby and will be matched with your gaming partner. We'll contact you on your email for the same. Follow [Kreosphere](https://www.instagram.com/kreosphere) and stay tuned!"
-            
+            st.session_state.message = f"### Hey **{name}**, You've entered the Kreo Lobby! 🎮\nWe’ll match you with your ideal gaming partner and contact you on your email. \n\nStay updated by following [Kreosphere](https://www.instagram.com/kreosphere)!"
+
             game_witty_messages = {
                 "Valorant": "One tap headshots? Your aim better be crispy. 🔫",
                 "CS:GO": "Flashbangs and flick shots – just don't rush B every round. 🎯",
@@ -153,4 +149,4 @@ if not st.session_state.submitted:
 
 else:
     st.title(st.session_state.message)
-    st.markdown(f'<p class="error-text">{st.session_state.witty_message}</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="info-text">{st.session_state.witty_message}</p>', unsafe_allow_html=True)

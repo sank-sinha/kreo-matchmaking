@@ -18,7 +18,7 @@ if USE_GOOGLE_SHEETS:
     client = gspread.authorize(creds)
     sheet = client.open(GOOGLE_SHEET_NAME).sheet1
 
-# --- UI DESIGN FIXES ---
+# --- ULTRA CLEAN UI DESIGN ---
 st.markdown(
     """
     <style>
@@ -29,23 +29,40 @@ st.markdown(
             color: black !important;
             font-family: 'Josefin Sans', sans-serif;
         }
+
         h1, h2, h3, h4, h5, h6 {
             color: black !important;
             font-weight: bold;
         }
+
         .stButton>button {
             background-color: #A578FD !important;
             color: white !important;
-            font-size: 16px !important;
+            font-size: 18px !important;
             font-weight: bold !important;
-            border-radius: 10px !important;
-            padding: 10px 24px !important;
+            border-radius: 12px !important;
+            padding: 12px 28px !important;
             border: none !important;
             cursor: pointer !important;
-            transition: 0.3s !important;
+            box-shadow: 0px 0px 10px rgba(165, 120, 253, 0.5) !important;
+            transition: all 0.3s ease-in-out !important;
         }
+
         .stButton>button:hover {
             background-color: #8B4CF7 !important;
+            box-shadow: 0px 0px 20px rgba(165, 120, 253, 0.8) !important;
+            transform: scale(1.05) !important;
+        }
+
+        .stTextInput, .stSelectbox, .stMultiselect, .stNumberInput {
+            border-radius: 8px !important;
+            padding: 10px !important;
+            border: 1px solid #A578FD !important;
+        }
+
+        .stMarkdown {
+            font-weight: bold !important;
+            font-size: 16px !important;
         }
     </style>
     """,
@@ -54,11 +71,10 @@ st.markdown(
 
 st.title("🎮 Kreo Lobby: Find Your Match")
 
-# --- SESSION STATE TO HANDLE GAME SELECTION ---
+# --- SESSION STATE ---
 if "selected_game" not in st.session_state:
     st.session_state.selected_game = "Valorant"
 
-# --- LOADING ANIMATION FUNCTION ---
 def show_loading():
     with st.spinner("Loading game options..."):
         time.sleep(1.5)
@@ -94,43 +110,31 @@ game_weapons = {
     "Other": ["Default Weapon", "Power Moves", "Basic Gear"]
 }
 
-# --- FORM STARTS HERE ---
+# --- FORM ---
 with st.form(key="matchmaking_form", clear_on_submit=False):
 
-    # --- GAMING PREFERENCES ---
     st.subheader("🎮 Gaming Preferences")
-
-    st.subheader("📊 Select Your Rank")
     game_rank = st.selectbox("🎖 Your Rank:", game_ranks[selected_game])
-
-    st.subheader("🔫 Select Your Preferred Weapon/Power")
     game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons[selected_game])
 
     preferred_time = st.selectbox("⏰ When Do You Usually Play?", ["Morning", "Afternoon", "Evening", "Night", "Flexible"])
     toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["None - I prefer a chill experience", "Low - Occasional banter is okay", "Moderate - Competitive trash talk is fine", "High - Full-on rage moments acceptable"])
 
-    # --- PERSONAL INFORMATION ---
     st.subheader("📝 Personal Information")
-
-    name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
-
+    name = st.text_input("🆔 Your Name")
+    
     st.markdown("📧 **Make sure you enter correct email address because this will be used to contact you for Round 2**")
-    email = st.text_input("Email Address", placeholder="example@email.com")
-
+    email = st.text_input("Email Address")
+    
     st.markdown("🎤 **Make sure you enter correct Discord ID because this will be used for the final showdown later**")
-    discord_id = st.text_input("Discord ID", placeholder="YourDiscord#1234")
+    discord_id = st.text_input("Discord ID")
 
-    phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")
-
+    phone = st.text_input("📞 Phone Number")
     age = st.number_input("🎂 Age", min_value=13, max_value=99, step=1)
-
     sex = st.selectbox("⚧ Sex", ["Male", "Female", "Other"])
 
-    st.markdown("**🍕 Favorite Gaming Snack**")  
-    favorite_snack = st.selectbox("", ["Chips", "Samosa", "Bhujia", "French Fries", "Chocolate", "Pizza", "Momos"])
-
-    st.markdown("**🥤 Favorite Soda**")  
-    favorite_soda = st.selectbox("", ["Thums Up", "Maaza", "Limca", "Mirinda", "Coca Cola", "Pepsi", "Sprite", "Mountain Dew"])
+    favorite_snack = st.selectbox("🍕 Favorite Gaming Snack", ["Chips", "Samosa", "Bhujia", "French Fries", "Chocolate", "Pizza", "Momos"])
+    favorite_soda = st.selectbox("🥤 Favorite Soda", ["Thums Up", "Maaza", "Limca", "Mirinda", "Coca Cola", "Pepsi", "Sprite", "Mountain Dew"])
 
     interests = st.multiselect("💡 Select interests you’d like your gaming partner to share:", ["Anime", "Pets", "Fitness", "Music", "Foodie", "Meme Lover", "Tech Enthusiast"])
     
@@ -138,7 +142,6 @@ with st.form(key="matchmaking_form", clear_on_submit=False):
 
     submitted = st.form_submit_button("🔍 Find My Gaming Partner")
 
-# --- SUCCESS SCREEN ---
 if submitted:
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         st.error("❌ Please enter a valid email address.")

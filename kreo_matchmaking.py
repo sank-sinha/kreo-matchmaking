@@ -148,5 +148,11 @@ if not st.session_state.submitted:
             st.rerun()
 
 else:
-    st.title(st.session_state.message)
+    st.markdown(f"""
+    <h1 style="font-size:2.5rem; font-weight:bold;">Hey {st.session_state.name}, You've entered the Kreo Lobby! 🎮</h1>
+    <p style="font-size:1.2rem;">We’ll match you with your ideal gaming partner and contact you on your email.</p>
+    <p style="font-size:1.2rem;">Stay updated by following <a href="https://www.instagram.com/kreosphere" target="_blank" style="color:#a578fd; text-decoration:none; font-weight:bold;">Kreosphere</a>!</p>
+    <p class="info-text" style="color:grey; font-size:1rem;">{st.session_state.witty_message}</p>
+    """, unsafe_allow_html=True)
+
     st.markdown(f'<p class="info-text">{st.session_state.witty_message}</p>', unsafe_allow_html=True)

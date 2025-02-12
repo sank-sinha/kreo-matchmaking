@@ -49,6 +49,10 @@ st.markdown(
         .stButton>button:hover {
             background-color: #8c60e3 !important;
         }
+        .error {
+            border: 2px solid red !important;
+            background-color: #ffe6e6 !important;
+        }
         .info-text {
             color: grey;
             font-size: 14px;
@@ -101,18 +105,18 @@ if not st.session_state.submitted:
     with st.form(key="matchmaking_form", clear_on_submit=False):
 
         st.subheader("🎮 Gaming Preferences")
-        game_rank = st.selectbox("🎖 Your Rank:", game_ranks.get(selected_game, ["Beginner"]))
-        game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons.get(selected_game, ["Default Weapon"]))
+        game_rank = st.selectbox("🎖 Your Rank:", game_ranks[selected_game])
+        game_weapon = st.selectbox("⚔️ Your Favorite Weapon:", game_weapons[selected_game])
         preferred_time = st.selectbox("⏰ When Do You Usually Play?", ["Morning", "Afternoon", "Evening", "Night", "Flexible"])
         toxicity_level = st.selectbox("😈 Acceptable Level of Toxicity:", ["No trash talks", "Some friendly Banter", "Full Ham M#$%^$"])
 
         st.subheader("📝 Personal Information")
 
         st.markdown("📧 **Ensure correct email, it will be used for Round 2**")
-        email = st.text_input("Email Address", placeholder="example@email.com")
+        email = st.text_input("Email Address", placeholder="Enter a valid email")
 
         st.markdown("🎤 **Ensure correct Discord ID, required for final showdown**")
-        discord_id = st.text_input("Discord ID", placeholder="YourDiscord#1234")
+        discord_id = st.text_input("Discord ID", placeholder="Enter your Discord ID")
 
         name = st.text_input("🆔 Your Name", placeholder="Enter your full name")
         phone = st.text_input("📞 Phone Number", placeholder="Enter your 10-digit number")

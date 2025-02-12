@@ -62,7 +62,7 @@ if not st.session_state.submitted:
     st.subheader("🎮 Select Your Game")
     selected_game = st.selectbox(
         "🕹 Which Game Do You Primarily Play?",
-        ["Valorant", "CS:GO", "League of Legends", "Fortnite", "Apex Legends", "Other"],
+        ["Valorant", "CS:GO", "League of Legends", "Fortnite", "Apex Legends", "Dota 2", "BGMI", "Free Fire", "Call of Duty", "Other"],
         key="selected_game"
     )
 
@@ -73,6 +73,10 @@ if not st.session_state.submitted:
         "League of Legends": ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Grandmaster", "Challenger"],
         "Fortnite": ["Casual", "Arena Beginner", "Arena Intermediate", "Arena Expert"],
         "Apex Legends": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Predator"],
+        "Dota 2": ["Herald", "Guardian", "Crusader", "Archon", "Legend", "Ancient", "Divine", "Immortal"],
+        "BGMI": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Crown", "Ace", "Conqueror"],
+        "Free Fire": ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Heroic", "Grandmaster"],
+        "Call of Duty": ["Rookie", "Veteran", "Elite", "Pro", "Master", "Grandmaster", "Legend"],
         "Other": ["Beginner", "Intermediate", "Advanced", "Pro"]
     }
 
@@ -81,7 +85,11 @@ if not st.session_state.submitted:
         "CS:GO": ["AWP", "AK-47", "M4A1-S", "Desert Eagle"],
         "League of Legends": ["Ability Power Mage", "Attack Damage Carry", "Tank", "Support"],
         "Fortnite": ["Pump Shotgun", "Scar", "Sniper Rifle", "Rocket Launcher"],
-        "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG"],
+        "Apex Legends": ["R-301", "Wingman", "Peacekeeper", "Volt SMG", "R-99"],
+        "Dota 2": ["Blink Dagger", "Divine Rapier", "Black King Bar", "Aghanim's Scepter"],
+        "BGMI": ["M416", "AKM", "AWM", "DP-28", "UZI"],
+        "Free Fire": ["MP40", "M1887", "AWM", "M1014", "SCAR"],
+        "Call of Duty": ["M4", "AK-47", "DL Q33", "MSMC", "PDW-57"],
         "Other": ["Default Weapon"]
     }
 
@@ -135,21 +143,7 @@ if not st.session_state.submitted:
                 sheet.append_row([name, email, discord_id, "+91" + phone, age, sex, game_rank, game_weapon, preferred_time, toxicity_level, ", ".join(interests), ", ".join(hobbies), favorite_snack, favorite_soda])
 
             st.session_state.submitted = True
-            st.session_state.message = f"🎉 {name}, you're now part of the Kreo Lobby!"
-
-            game_witty_messages = {
-                "Valorant": f"One tap headshots and clutches? Sounds like a **{game_rank}** with a **{game_weapon}** is in the making! 🔫",
-                "CS:GO": f"Flashbangs and flick shots – a true **{game_rank}** legend with a **{game_weapon}** is ready to go! 🎯",
-                "League of Legends": f"With your **{game_weapon}**, the Rift will never be the same again. Get ready to carry! 🏆",
-                "Fortnite": f"90s cranker and build-battle master? Your **{game_rank}** skills are about to shine! 🏗️",
-                "Apex Legends": f"Sliding into victory with a **{game_weapon}** – it's game time, champion! 🏅",
-                "Other": f"Regardless of the game, your **{game_rank}** skills will dominate! 🎮"
-            }
-
-            st.session_state.witty_message = game_witty_messages.get(selected_game, "Get ready to game on and find your perfect duo! 🎮")
             st.rerun()
 
 else:
-    st.title(st.session_state.message)
-    st.subheader(st.session_state.witty_message)
     st.success("✅ Thanks for submitting! We'll contact you on your email. Follow us: [Kreosphere](https://www.instagram.com/kreosphere)")
